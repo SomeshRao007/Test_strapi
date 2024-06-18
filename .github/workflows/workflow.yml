@@ -49,6 +49,5 @@ jobs:
             git pull origin master &&
             yarn install &&
             yarn build &&
-            yarn develop &&
-            pm2 restart strapi
+            pm2 start strapi develop
             '
