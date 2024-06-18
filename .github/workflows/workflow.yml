@@ -12,6 +12,7 @@ on:
 
 jobs:
    build-and-deploy:
+       environment: DEV
        runs-on: ubuntu-latest
 
        steps:
