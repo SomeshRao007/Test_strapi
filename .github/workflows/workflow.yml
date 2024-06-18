@@ -1,0 +1,52 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Deploy Strapi
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "master" branch
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+   build-and-deploy:
+       runs-on: ubuntu-latest
+
+       steps:
+        - name: Checkout code
+          uses: actions/checkout@v2
+
+        - name: Set up Node.js
+          uses: actions/setup-node@v2
+          with:
+            node-version: '20.x'
+
+        - name: Install dependencies
+        
+          run: npm install -g yarn
+
+        - name: Build Strapi
+          run: yarn build
+
+        - name: Prepare SSH Key
+          run: |
+            echo "${{ secrets.SSH_PRIVATE_KEY }}" > key.pem
+            chmod 600 key.pem
+
+        - name: Deploy to server
+          env:
+            HOST: ${{ secrets.HOST }}
+            USERNAME: ${{ secrets.USERNAME }}
+            SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+            ENV_VARS: ${{ secrets.ENV_VARS }}
+          run: |
+            
+            ssh -i key.pem -o StrictHostKeyChecking=no ${USER_NAME}@${HOSTNAME} '
+            cd /my-strapi-project
+            git pull origin master
+            yarn install
+            yarn build
+            pm2 restart strapi
+            '
