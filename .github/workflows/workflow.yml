@@ -40,12 +40,13 @@ jobs:
             USERNAME: ${{ secrets.USERNAME }}
             SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
             ENV_VARS: ${{ secrets.ENV_VARS }}
+          
           run: |
             
-            ssh -i key.pem -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} << EOF
-            cd /my-strapi-project
-            git pull origin master
-            yarn install
-            yarn build
+            ssh -i key.pem -o StrictHostKeyChecking=no ${USER_NAME}@${HOST} '
+            cd ~/my-strapi-project &&
+            git pull origin master &&
+            yarn install &&
+            yarn build &&
             pm2 restart strapi
-            EOF
+            '
