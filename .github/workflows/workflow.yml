@@ -27,8 +27,7 @@ jobs:
         
           run: npm install -g yarn
 
-        - name: Build Strapi
-          run: yarn build
+
 
         - name: Prepare SSH Key
           run: |
