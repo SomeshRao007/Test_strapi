@@ -42,7 +42,7 @@ jobs:
             ENV_VARS: ${{ secrets.ENV_VARS }}
           run: |
             
-            ssh -i key.pem -o StrictHostKeyChecking=no ${USER_NAME}@${HOSTNAME} '
+            ssh -i key.pem -o StrictHostKeyChecking=no ${USER_NAME}@${HOST} '
             cd /my-strapi-project
             git pull origin master
             yarn install
